@@ -1,0 +1,5 @@
+# Default ignored files
+/EEG_EMOTION/__pycache__
+/EEG_EMOTION/venv
+/EEG_EMOTION/dataset_eeg.csv
+/EEG_EMOTION/*.pyc
