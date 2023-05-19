@@ -3,3 +3,4 @@
 /EEG_EMOTION/venv
 /EEG_EMOTION/dataset_eeg.csv
 /EEG_EMOTION/*.pyc
+dataset_eeg.csv
