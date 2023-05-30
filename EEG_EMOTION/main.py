@@ -1,41 +1,9 @@
-import re
 import scipy.io
 import pandas as pd
 import os
-from sklearn.preprocessing import StandardScaler
 import feature_extraction
 import preprocessing
-
-
-# Funzione utilizzata per effettuare reshape di un dataset in un array monodimensionale
-# per poter standardizzare il vettore con oggetto StandardScaler
-def reshape_and_scaling(df_scale):
-    tmp = df_scale.reshape(-1, 1)
-    scaler = StandardScaler()
-    scaler = scaler.fit(tmp)
-    return scaler.transform(tmp)
-
-
-# Crea Label da utilizzare per descrivere ogni tupla del Dataset
-def create_label(file_name, labels_video, targets_emotion, n, m):
-    person = re.findall("\d+_", file_name)
-    person = re.findall("\d+", person[0])
-    video_label = re.findall("\d+", labels_video[m])
-    target_label = targets_emotion[n]
-    return person, video_label, target_label
-
-
-# Funzione utilizzata per aggiungere le label di persona , video , emozione e sessione
-# alla tupla creata
-def add_labels_and_concat(df_raw, df_concat, label_person, label_video, label_target, label_session):
-    df_tmp = pd.DataFrame(df_raw)
-    df_tmp = df_tmp.T
-    df_tmp['id_user'] = label_person
-    df_tmp['session'] = label_session
-    df_tmp['video'] = label_video
-    df_tmp['emotion'] = label_target
-    df_concat = pd.concat([df_concat, df_tmp])
-    return df_concat
+import label_dataset_utility
 
 
 # Creazione oggetti DataFrame
@@ -89,28 +57,28 @@ if os.path.exists(directory):
                         # result = feature_extraction.feature_extraction(filtered_dataset)
 
                         # Reshape e Standardizzazione delle tuple con le feature
-                        psd = reshape_and_scaling(psd)
-                        entropy = reshape_and_scaling(entropy)
-                        asm = reshape_and_scaling(asm)
-                        dasm = reshape_and_scaling(dasm)
+                        psd = label_dataset_utility.reshape_and_scaling(psd)
+                        entropy = label_dataset_utility.reshape_and_scaling(entropy)
+                        asm = label_dataset_utility.reshape_and_scaling(asm)
+                        dasm = label_dataset_utility.reshape_and_scaling(dasm)
 
                         # Creazione delle label
-                        id_person, video, target = create_label(file1, labels, targets, j, i)
+                        id_person, video, target = label_dataset_utility.create_label(file1, labels, targets, j, i)
                         j += 1
 
                         # Aggiunta label sulle tuple e concatenzazione sul dataset globale
-                        df_global = add_labels_and_concat(result, df_global, id_person, video, target, session)
-                        df_psd = add_labels_and_concat(psd, df_psd, id_person, video, target, session)
-                        df_de = add_labels_and_concat(entropy, df_de, id_person, video, target, session)
-                        df_asm = add_labels_and_concat(asm, df_asm, id_person, video, target, session)
-                        df_dasm = add_labels_and_concat(dasm, df_dasm, id_person, video, target, session)
+                        df_global = label_dataset_utility.add_labels_and_concat(result, df_global, id_person, video, target, session)
+                        df_psd = label_dataset_utility.add_labels_and_concat(psd, df_psd, id_person, video, target, session)
+                        df_de = label_dataset_utility.add_labels_and_concat(entropy, df_de, id_person, video, target, session)
+                        df_asm = label_dataset_utility.add_labels_and_concat(asm, df_asm, id_person, video, target, session)
+                        df_dasm = label_dataset_utility.add_labels_and_concat(dasm, df_dasm, id_person, video, target, session)
 
                         print("Shape Dataset FULL : ", df_global.shape)
                         print("Shape Dataset Feature : ", df_psd.shape, df_de.shape, df_asm.shape, df_dasm.shape)
 
 # Stampa dei Dataset Su file .csv
-df_global.to_csv('dataset_eeg_nseg.csv')
-df_psd.to_csv('dataset_eeg_psd_stand.csv')
-df_de.to_csv('dataset_eeg_de_stand.csv')
-df_asm.to_csv('dataset_eeg_asm_stand.csv')
-df_dasm.to_csv('dataset_eeg_dasm_stand.csv')
+df_global.to_csv('CSV/dataset_eeg_nseg.csv')
+df_psd.to_csv('CSV/dataset_eeg_psd_stand.csv')
+df_de.to_csv('CSV/dataset_eeg_de_stand.csv')
+df_asm.to_csv('CSV/dataset_eeg_asm_stand.csv')
+df_dasm.to_csv('CSV/dataset_eeg_dasm_stand.csv')
