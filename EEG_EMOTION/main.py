@@ -15,8 +15,8 @@ df_dasm = pd.DataFrame()
 
 # Scelta Path Assouluto Dataset SEEDIV
 # directory = "C:\\Users\\grazi\\Desktop\\Materiale FVAB\\SEED_IV Database\\SEED_IV Database"
-# directory = "C:\\Users\\santo\\Downloads\\SEED_IV Database\\SEED_IV Database"
-directory = "D:\\DATASET FVAB\\SEED_IV Database\\SEED_IV Database\\"
+directory = "C:\\Users\\santo\\Downloads\\SEED_IV Database\\SEED_IV Database"
+#directory = "D:\\DATASET FVAB\\SEED_IV Database\\SEED_IV Database\\"
 
 # Label Sessioni
 session1_label = [1, 2, 3, 0, 2, 0, 0, 1, 0, 1, 2, 1, 1, 1, 2, 3, 2, 2, 3, 3, 0, 3, 0, 3]
@@ -48,10 +48,11 @@ if os.path.exists(directory):
                         id_user = labels[i]
                         df = pd.DataFrame(data[id_user])
                         df = preprocessing.drop_channels(df, channel_order)
+
                         downsampled = preprocessing.down_sampling(df.T)
                         filtered = preprocessing.band_pass_filter(downsampled)
                         filtered_dataset = pd.DataFrame(filtered).T
-                        # Se si vuole eseguire un analisi sulle feature non segmentate ad 1 sec
+                        # Se si vuole eseguire un analisi sulle feature non segmentate a 4 sec
                         # utilizzare il metodo feature_extraction.feature_extraction
                         result, psd, entropy, dasm, asm = feature_extraction.feature_extraction_nperseg(filtered_dataset)
                         # result = feature_extraction.feature_extraction(filtered_dataset)
