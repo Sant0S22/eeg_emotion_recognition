@@ -49,4 +49,5 @@ def feature_extraction_nperseg(dataframe_to_filter):
     entropy = de(dataframe_to_filter)
     dasm = dasm_function(psd)
     asm = asm_function(psd)
-    return np.concatenate((psd.flatten(), dasm.flatten(), asm, entropy)), psd.flatten(), entropy, dasm.flatten(), asm
+    return np.concatenate((psd.flatten(), dasm.flatten(), asm, entropy )), psd.flatten(), entropy, dasm.flatten(), asm
+
