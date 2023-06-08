@@ -4,4 +4,4 @@
 /EEG_EMOTION/dataset_eeg.csv
 /EEG_EMOTION/*.pyc
 *.csv
-/.ipynb_checkpoints/*
+/notebook/.ipynb_checkpoints/*
