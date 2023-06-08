@@ -4,12 +4,12 @@ import numpy as np
 import pandas as pd
 
 
-# Calcolo Feature PSD con 200Hz utilizzando segmentazione default
+# Calcolo Feature PSD a 200Hz utilizzando segmentazione default
 def psd_function(df):
     return signal.welch(df, 200, noverlap=0, scaling="spectrum")
 
 
-# Calcolo Feature PSD con 200Hz utilizzando segmentazione 4 secondi
+# Calcolo Feature PSD a 200Hz utilizzando segmentazione 4 secondi (200x4)
 def psd_function_nperseg(df):
     return signal.welch(df, 200, noverlap=0, scaling="spectrum", nperseg=800)
 
@@ -34,7 +34,7 @@ def asm_function(psd):
         left_hemisphere_psd + right_hemisphere_psd, axis=0)
 
 
-# Calcolo di tutte le feature senza segmentazione
+# Calcolo di tutte le feature utilizzando la segmentazione di default
 def feature_extraction(dataframe_to_filter):
     f, psd = psd_function(dataframe_to_filter)
     entropy = de(psd)
@@ -43,7 +43,7 @@ def feature_extraction(dataframe_to_filter):
     return np.concatenate((psd.flatten(), entropy, dasm.flatten(), asm))
 
 
-# Calcolo di tutte le feature con segmentazione a 4 secondi
+# Calcolo di tutte le feature utilizzando la segmentazione a 4 secondi
 def feature_extraction_nperseg(dataframe_to_filter):
     f, psd = psd_function_nperseg(dataframe_to_filter)
     entropy = de(dataframe_to_filter)

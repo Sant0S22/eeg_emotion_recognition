@@ -1,7 +1,7 @@
 from scipy import signal
 
 
-# Metodo utilizzato per eliminare i dati relativi a sensori non interessanti per emotion recognition
+# Metodo utilizzato per eliminare i dati relativi ai sensori non significativi per l'emotion recognition
 def drop_channels(df, channel_order):
     df = df.set_index(channel_order[0])
     df = df.transpose()
@@ -10,7 +10,7 @@ def drop_channels(df, channel_order):
     return df
 
 
-# Metodo che effettua downsampling del segnale per eliminare rumore
+# Metodo che effettua downsampling del segnale per Noise Reduction
 def down_sampling(data):
     sfreq = 1000
     new_sfreq = 200
@@ -19,7 +19,7 @@ def down_sampling(data):
     return data
 
 
-# Metodo che applica un un filtro passa banda sul segnale per filtrare le informazioni
+# Metodo che applica un filtro passa banda sul segnale per Artifact Filtering
 def band_pass_filter(data):
     sfreq = 200
     nyquist_frequency = sfreq / 2
